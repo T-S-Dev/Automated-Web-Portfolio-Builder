@@ -20,11 +20,14 @@ const SignInForm = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
     setError,
   } = useForm({
     resolver: zodResolver(signInSchema),
   });
+
+  const identifierValue = watch("identifier");
 
   const onSubmit = async (data: SignInFormType) => {
     if (!isLoaded) return;
@@ -68,8 +71,18 @@ const SignInForm = () => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor="password" className="block text-sm font-medium">
+          <label htmlFor="password" className="flex justify-between text-sm font-medium">
             Password
+            <Link
+              href={
+                identifierValue
+                  ? `/forgot-password?identifier=${encodeURIComponent(identifierValue)}`
+                  : "/forgot-password"
+              }
+              className="text-xs text-blue-600 hover:underline"
+            >
+              Forgot password?
+            </Link>
           </label>
           <input id="password" {...register("password")} type="password" placeholder="••••••••" />
           {errors.password && <p className="ml-1 text-sm text-red-500">{errors.password.message}</p>}
