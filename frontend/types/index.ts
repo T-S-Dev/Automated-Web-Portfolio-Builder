@@ -10,6 +10,8 @@ export type PortfolioDocument = Portfolio & {
   updatedAt: Date;
 };
 
+export type PortfolioSectionKey = keyof Omit<Portfolio, "personal" | "template">;
+
 export type DashboardPortfolio = {
   personal: {
     name: string;

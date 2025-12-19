@@ -4,30 +4,41 @@ import { Portfolio } from "@/types";
 
 const ExperienceSection = ({ experience }: { experience: Portfolio["experience"] }) => {
   return (
-    <section id="experience" className="flex flex-col justify-center gap-8 p-4">
-      <h2 className="text-4xl font-bold text-[#64ffda]">Experience</h2>
+    <section id="experience" className="px-6 py-18">
+      <div className="mx-auto max-w-6xl">
+        <h2 className="from-accent-teal to-accent-green mb-8 bg-gradient-to-br bg-clip-text text-3xl font-bold text-transparent md:text-4xl">
+          Experience
+        </h2>
 
-      <div className="w-full max-w-3xl space-y-6">
-        {experience?.map((exp, index) => (
-          <div key={index} className="flex flex-col gap-2 rounded-lg border border-gray-700 bg-gray-900 p-6 shadow-md">
-            <h3 className="flex items-center gap-2 text-2xl font-semibold text-white">
-              <Briefcase size={22} className="text-[#64ffda]" aria-hidden="true" />
-              {exp.job_title}
-            </h3>
+        <div className="border-border/50 relative space-y-12 border-l-2 pl-8">
+          {experience?.map((exp, index) => (
+            <div key={index} className="group relative">
+              <div className="border-accent-teal bg-background group-hover:border-accent-green absolute top-2 -left-[2.1rem] h-4 w-4 rounded-full border-2 transition-all group-hover:scale-125" />
 
-            <h4 className="text-xl font-medium text-gray-300">{exp.company}</h4>
+              <div className="flex flex-col gap-3">
+                <div className="flex items-start justify-between gap-4">
+                  <h3 className="text-foreground text-2xl font-semibold">
+                    <span className="text-balance">{exp.job_title}</span>
+                  </h3>
+                  <time className="text-muted-foreground flex items-center gap-2 text-sm whitespace-nowrap">
+                    <Calendar size={16} aria-hidden="true" />
+                    {exp.start_date} - {exp.end_date}
+                  </time>
+                </div>
 
-            <h5 className="flex items-center gap-2 text-sm text-gray-400">
-              <Calendar size={18} aria-hidden="true" />
-              {exp.start_date} - {exp.end_date}
-            </h5>
+                <h4 className="text-accent-teal flex items-center gap-2 text-xl font-medium">
+                  <Briefcase size={20} aria-hidden="true" />
+                  {exp.company}
+                </h4>
 
-            <div
-              className="mt-3 flex flex-col gap-2 text-gray-300"
-              dangerouslySetInnerHTML={{ __html: exp.description }}
-            />
-          </div>
-        ))}
+                <div
+                  className="text-muted-foreground mt-2 leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: exp.description }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

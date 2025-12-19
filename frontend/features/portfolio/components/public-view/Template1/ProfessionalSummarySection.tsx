@@ -6,12 +6,19 @@ const ProfessionalSummarySection = ({
   professional_summary: Portfolio["professional_summary"];
 }) => {
   return (
-    <section id="professional_summary" className="flex flex-col justify-center gap-8 p-4">
-      <h2 className="flex items-center gap-2 text-4xl font-bold text-[#64ffda]">About Me</h2>
+    <section id="professional_summary" className="px-6 py-18">
+      <div className="mx-auto max-w-6xl">
+        <h2 className="from-accent-teal to-accent-green mb-8 bg-gradient-to-br bg-clip-text text-3xl font-bold text-transparent md:text-4xl">
+          About Me
+        </h2>
 
-      {professional_summary && (
-        <div className="w-full text-lg leading-relaxed" dangerouslySetInnerHTML={{ __html: professional_summary }} />
-      )}
+        {professional_summary && (
+          <div
+            className="text-muted-foreground leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: professional_summary }}
+          />
+        )}
+      </div>
     </section>
   );
 };
