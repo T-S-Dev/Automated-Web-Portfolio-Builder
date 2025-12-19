@@ -1,3 +1,7 @@
+import { JSX } from "react";
+
+import { getNavSections } from "@/features/portfolio/lib/getNavSections";
+
 import Header from "./Header";
 import PersonalSection from "./PersonalSection";
 import ProfessionalSummarySection from "./ProfessionalSummarySection";
@@ -7,62 +11,55 @@ import SkillsSection from "./SkillsSection";
 import ProjectsSection from "./ProjectsSection";
 import CertificationsSection from "./CertificationsSection";
 
-import { Portfolio } from "@/types";
+import { Portfolio, PortfolioSectionKey } from "@/types";
 
-type SectionConfig = {
-  component: React.ComponentType<any>;
-  props: object;
-  shouldRender: boolean;
-};
+import "./template1.css";
+
+const SECTION_ORDER: PortfolioSectionKey[] = [
+  "professional_summary",
+  "experience",
+  "education",
+  "skills",
+  "projects",
+  "certifications",
+];
 
 const Template1 = ({ portfolio }: { portfolio: Portfolio }) => {
-  const { personal, professional_summary, education, experience, skills, projects, certifications } = portfolio;
+  const rawSections = getNavSections(portfolio);
 
-  const sections: SectionConfig[] = [
-    {
-      component: ProfessionalSummarySection,
-      props: { professional_summary },
-      shouldRender: !!professional_summary,
-    },
-    {
-      component: EducationSection,
-      props: { education },
-      shouldRender: (education?.length || 0) > 0,
-    },
-    {
-      component: ExperienceSection,
-      props: { experience },
-      shouldRender: (experience?.length || 0) > 0,
-    },
-    {
-      component: SkillsSection,
-      props: { skills },
-      shouldRender: !!(skills?.technical?.length || skills?.soft?.length),
-    },
-    {
-      component: ProjectsSection,
-      props: { projects },
-      shouldRender: (projects?.length || 0) > 0,
-    },
-    {
-      component: CertificationsSection,
-      props: { certifications },
-      shouldRender: (certifications?.length || 0) > 0,
-    },
-  ];
+  const orderedSections = SECTION_ORDER.map((id) => rawSections.find((s) => s.id === id)).filter(
+    (s): s is NonNullable<typeof s> => !!s,
+  );
+
+  const sectionComponents: Record<PortfolioSectionKey, () => JSX.Element> = {
+    professional_summary: () => <ProfessionalSummarySection professional_summary={portfolio.professional_summary} />,
+    education: () => <EducationSection education={portfolio.education} />,
+    experience: () => <ExperienceSection experience={portfolio.experience} />,
+    skills: () => <SkillsSection skills={portfolio.skills} />,
+    projects: () => <ProjectsSection projects={portfolio.projects} />,
+    certifications: () => <CertificationsSection certifications={portfolio.certifications} />,
+  };
 
   return (
-    <div className="relative text-[#ccd6f6]">
-      <Header portfolio={portfolio} />
+    <div className="bg-background text-foreground relative template-1-scope">
+      <Header portfolio={portfolio} navSections={orderedSections} />
 
-      <main className="container mx-auto flex flex-col gap-20">
-        <PersonalSection personal={personal} />
+      <main>
+        <PersonalSection personal={portfolio.personal} />
 
-        {/* Dynamically render sections based on conditions */}
-        {sections.map(({ component: Section, props, shouldRender }, index) =>
-          shouldRender ? <Section key={index} {...props} /> : null,
-        )}
+        {orderedSections.map((section) => {
+          if (!section.exists) return null;
+
+          const Section = sectionComponents[section.id];
+          return <Section key={section.id} />;
+        })}
       </main>
+
+      <footer className="text-muted-foreground border-border border-t py-12 text-center text-sm">
+        <p>
+          © {new Date().getFullYear()} {portfolio.personal.name}. All rights reserved.
+        </p>
+      </footer>
     </div>
   );
 };

@@ -1,30 +1,46 @@
-import { BookOpen, Calendar } from "lucide-react";
+import { Award, BookOpen, Calendar } from "lucide-react";
 
 import { Portfolio } from "@/types";
 
 const EducationSection = ({ education }: { education: Portfolio["education"] }) => {
   return (
-    <section id="education" className="flex flex-col justify-center gap-8 p-4">
-      <h2 className="text-4xl font-bold text-[#64ffda]">Education</h2>
+    <section id="education" className="px-6 py-18">
+      <div className="mx-auto max-w-6xl">
+        <h2 className="from-accent-teal to-accent-green mb-8 bg-gradient-to-br bg-clip-text text-3xl font-bold text-transparent md:text-4xl">
+          Education
+        </h2>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        {education?.map((edu, index) => (
-          <div key={index} className="flex flex-col gap-2 rounded-lg border border-gray-700 bg-gray-900 p-6 shadow-md">
-            <h3 className="flex items-center gap-2 text-2xl font-semibold text-white">
-              <BookOpen size={22} className="text-[#64ffda]" aria-hidden="true" />
-              {edu.degree}
-            </h3>
+        <div className="grid gap-6 md:grid-cols-2">
+          {education?.map((edu, index) => (
+            <div
+              key={index}
+              className="group border-border/50 bg-card hover:border-accent-teal/50 hover:shadow-accent-teal/5 relative overflow-hidden rounded-lg border p-6 transition-all hover:shadow-lg"
+            >
+              <div className="from-accent-teal to-accent-green absolute top-0 right-0 h-1 w-0 bg-gradient-to-r transition-all duration-300 group-hover:w-full" />
 
-            <h4 className="text-xl font-medium text-gray-300">{edu.institution}</h4>
+              <div className="flex flex-col gap-3">
+                <h3 className="text-foreground flex items-start gap-2 text-xl font-semibold">
+                  <BookOpen size={22} className="text-accent-teal mt-1 flex-shrink-0" aria-hidden="true" />
+                  <span className="leading-tight">{edu.degree}</span>
+                </h3>
 
-            {edu.grade && <p className="text-lg text-gray-400">Grade: {edu.grade}</p>}
+                <h4 className="text-muted-foreground text-lg font-medium">{edu.institution}</h4>
 
-            <h5 className="flex items-center gap-2 text-sm text-gray-400">
-              <Calendar size={18} aria-hidden="true" />
-              {edu.start_date} - {edu.end_date}
-            </h5>
-          </div>
-        ))}
+                {edu.grade && (
+                  <p className="text-muted-foreground/80 flex items-center gap-2 text-sm">
+                    <Award size={16} aria-hidden="true" />
+                    Grade: {edu.grade}
+                  </p>
+                )}
+
+                <time className="text-muted-foreground/80 flex items-center gap-2 text-sm">
+                  <Calendar size={16} aria-hidden="true" />
+                  {edu.start_date} - {edu.end_date}
+                </time>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -51,6 +51,10 @@
       height: 0;
     }
   }
+
+  /* additional template 1 vars */
+  --color-accent-teal: var(--accent-teal);
+  --color-accent-green: var(--accent-green);
 }
 
 :root {
