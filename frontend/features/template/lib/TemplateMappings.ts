@@ -1,5 +1,6 @@
 import Template1 from "@/features/portfolio/components/public-view/Template1";
 import Template2 from "@/features/portfolio/components/public-view/Template2";
+import Template3 from "@/features/portfolio/components/public-view/Template3";
 
 import { Portfolio } from "@/types";
 
@@ -14,4 +15,5 @@ export const DefaultTemplate: React.ComponentType<TemplateProps> = Template1;
 export const TemplateMappings: TemplateMapping = {
   1: Template1,
   2: Template2,
+  3: Template3,
 };

@@ -18,8 +18,6 @@ import { sanitizeOptions } from "@/shared/lib/utils";
 
 import { type UseFormSetValue, type FieldValues, type Path, type PathValue } from "react-hook-form";
 
-const DEFAULT_COLOR = "#f8fafc";
-
 type RTEditorProps<TFieldValues extends FieldValues> = {
   name: Path<TFieldValues>;
   setValue: UseFormSetValue<TFieldValues>;
@@ -33,7 +31,7 @@ const RTEditor = <TFieldValues extends FieldValues>({
   content,
   extraToolbarButtons = [],
 }: RTEditorProps<TFieldValues>) => {
-  const [color, setColor] = useState(DEFAULT_COLOR);
+  const [color, setColor] = useState("");
 
   const editor = useEditor({
     extensions: [
@@ -128,7 +126,7 @@ const RTEditor = <TFieldValues extends FieldValues>({
         <Button
           variant="secondary"
           onClick={() => {
-            setColor(DEFAULT_COLOR);
+            setColor("");
             editor.chain().focus().unsetColor().run();
           }}
         >
